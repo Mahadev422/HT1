@@ -10,9 +10,9 @@ const Header = () => (
       </Link>
       <nav className="flex gap-5">
         <button className="text-2xl"><FaSun /></button>
-        <Link to="/profile" className="text-2xl">
+        {/* <Link to="/profile" className="text-2xl">
           <CgProfile />
-        </Link>
+        </Link> */}
       </nav>
     </div>
   </header>

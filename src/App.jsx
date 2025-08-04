@@ -3,6 +3,7 @@ import Header from "./layout/Header";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import AskQuery from './components/AskQuery';
+import Toast from "./components/animation/Toast";
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
         <Header />
       </div>
       <main className="w-screen min-h-screen">
+        {/* <Toast /> */}
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/chat" element={<AskQuery />} />
         </Routes>
       </main>

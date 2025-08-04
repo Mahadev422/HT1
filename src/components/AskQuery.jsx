@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { FaPaperPlane, FaUser, FaRobot } from 'react-icons/fa';
 import Search from './animation/Search';
+import MessageBack from './animation/MessageBack';
+import { useQuery } from '../store/useQuery';
 
 export default function AskQuery () {
+  const { message, sendQuery, loading} = useQuery();
+
   const [messages, setMessages] = useState([
     { id: 1, text: "Hello! How can I help you today?", sender: "bot", timestamp: new Date(Date.now() - 10000) },
     { id: 2, text: "I'm having trouble with my React app", sender: "user", timestamp: new Date(Date.now() - 8000) },
@@ -10,7 +14,7 @@ export default function AskQuery () {
   ]);
   
   const [newMessage, setNewMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(loading);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
@@ -22,30 +26,7 @@ export default function AskQuery () {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  const simulateBotResponse = () => {
-    const responses = [
-      "That's a great question! Let me think about that...",
-      "I understand the issue. Here's what you can try:",
-      "That should work! Is there anything else you'd like to know?",
-      "Let me help you with that step by step.",
-      "Perfect! That's exactly the right approach."
-    ];
-    
-    setIsTyping(true);
-    
-    setTimeout(() => {
-      const response = responses[Math.floor(Math.random() * responses.length)];
-      setMessages(prev => [...prev, {
-        id: Date.now(),
-        text: response,
-        sender: "bot",
-        timestamp: new Date()
-      }]);
-      setIsTyping(false);
-    }, 2000 + Math.random() * 2000);
-  };
-
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() || isLoading) return;
 
@@ -57,14 +38,8 @@ export default function AskQuery () {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    await sendQuery(newMessage);
     setNewMessage('');
-    setIsLoading(true);
-
-    // Simulate network delay
-    setTimeout(() => {
-      setIsLoading(false);
-      simulateBotResponse();
-    }, 500);
   };
 
   const formatTime = (timestamp) => {
@@ -100,8 +75,7 @@ export default function AskQuery () {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto z-10 bg-white">
-
+    <div className="flex flex-col h-screen max-w-4xl mx-auto z-10 bg-gradient-to-b from-gray-50 to-blue-100 bg-blue-100">
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto px-6 py-4 bg-gray-50">
         <div className="space-y-4">
