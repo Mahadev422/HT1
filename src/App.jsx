@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./layout/Header";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
+import AskQuery from './components/AskQuery';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat" element={<AskQuery />} />
         </Routes>
       </main>
     </>
