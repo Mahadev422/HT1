@@ -1,17 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { FaPaperPlane, FaUser, FaRobot } from 'react-icons/fa';
-import Search from './animation/Search';
-import MessageBack from './animation/MessageBack';
+import Search from '../components/animation/Search';
 import { useQuery } from '../store/useQuery';
 
 export default function AskQuery () {
-  const { message, sendQuery, loading} = useQuery();
-
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hello! How can I help you today?", sender: "bot", timestamp: new Date(Date.now() - 10000) },
-    { id: 2, text: "I'm having trouble with my React app", sender: "user", timestamp: new Date(Date.now() - 8000) },
-    { id: 3, text: "I'd be happy to help! Can you describe what specific issue you're encountering?", sender: "bot", timestamp: new Date(Date.now() - 5000) }
-  ]);
+  const { messages, sendQuery, loading, set} = useQuery();
   
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(loading);
@@ -37,8 +30,11 @@ export default function AskQuery () {
       timestamp: new Date()
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    await sendQuery(newMessage);
+    set({ messages: [...messages, userMessage]});
+
+    const msg = await sendQuery(newMessage);
+    set({ messages: [...messages, userMessage, msg]});
+    console.log(messages);
     setNewMessage('');
   };
 
@@ -90,7 +86,7 @@ export default function AskQuery () {
       </div>
 
       {/* Input Area */}
-      <div className="bg-white border-t border-gray-200 px-6 py-4">
+      <div className="bg-white border-t sticky bottom-0 border-gray-200 px-6 py-4">
         <div className="flex items-center space-x-3">
           <div className="flex-1 relative">
             <input

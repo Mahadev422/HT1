@@ -1,6 +1,8 @@
 // store/useUpload.js
 import { create } from 'zustand';
 
+const baseUrl = 'https://ht1-backend.onrender.com';
+
 export const useUpload = create((set) => ({
   uploading: false,
   uploadError: null,
@@ -15,7 +17,7 @@ export const useUpload = create((set) => ({
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://localhost:8000/upload/pdf', {
+      const response = await fetch(`${baseUrl}/upload/pdf`, {
         method: 'POST',
         body: formData,
       });
