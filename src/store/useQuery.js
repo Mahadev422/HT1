@@ -1,27 +1,24 @@
 import { create } from "zustand";
 
-const baseUrl = 'https://ht1-backend.onrender.com';
+//const baseUrl = 'https://ht1-backend.onrender.com';
+const baseUrl = ' http://127.0.0.1:8000';
 
 export const useQuery = create((set) => ({
   set: set,
   loading: false,
   message: null,
-  messages: [
-    { id: 1, text: "Hello! How can I help you today?", sender: "bot", timestamp: new Date(Date.now() - 10000) },
-    { id: 2, text: "I'm having trouble with my React app", sender: "user", timestamp: new Date(Date.now() - 8000) },
-    { id: 3, text: "I'd be happy to help! Can you describe what specific issue you're encountering?", sender: "bot", timestamp: new Date(Date.now() - 5000) }
-  ],
+  messages: [],
 
-  sendQuery: async (query) => {
+  sendQuery: async (query, id, chats) => {
     set({ loading: true });
-
+    console.log(chats)
     try {
-      const response = await fetch(`${baseUrl}/query`, {
+      const response = await fetch(`${baseUrl}/query/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, id, chats }),
       });
 
       if (!response.ok) {
@@ -33,10 +30,9 @@ export const useQuery = create((set) => ({
       const msg = {
         id: Date.now(),
         text: data.response,
-        sender: 'bot',
+        role: 'bot',
         timestamp: new Date()
       };
-      console.log(msg);
       return msg;
     } catch (err) {
       console.error("Query Error:", err);

@@ -1,7 +1,8 @@
 // store/useUpload.js
 import { create } from 'zustand';
 
-const baseUrl = 'https://ht1-backend.onrender.com';
+//const baseUrl = 'https://ht1-backend.onrender.com';
+const baseUrl = ' http://127.0.0.1:8000';
 
 export const useUpload = create((set) => ({
   uploading: false,
@@ -9,6 +10,7 @@ export const useUpload = create((set) => ({
   uploadSuccess: false,
   file: null,
   set: set,
+  id: null,
 
   uploadFile: async (file) => {
     set({ uploading: true, uploadError: null, uploadSuccess: false });
@@ -27,9 +29,8 @@ export const useUpload = create((set) => ({
       }
 
       const data = await response.json();
-      set({ uploading: false, uploadSuccess: true });
-      console.log(data);
-      return data;
+      set({ uploading: false, uploadSuccess: true});
+      return data.id;
     } catch (err) {
       set({ uploading: false, uploadError: err.message });
       return null;

@@ -6,14 +6,11 @@ import AskQuery from './pages/AskQuery';
 function App() {
   return (
     <>
-      <div className="sticky w-screen top-0 z-100 bg-gray-50">
-        <Header />
-      </div>
       <main className="w-screen">
         {/* <Toast /> */}
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/chat" element={<AskQuery />} />
+          <Route path="/:id" element={<AskQuery />} />
         </Routes>
       </main>
     </>

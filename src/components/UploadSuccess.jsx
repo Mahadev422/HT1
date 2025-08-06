@@ -20,8 +20,9 @@ const UploadSuccess = ({ fileInputRef }) => {
   const handleFileSend = async () => {
     if(!file) return alert('Please upload pdf file');
 
-    await uploadFile(file);
-    return navigate('chat');
+    const id = await uploadFile(file);
+    if(!id) return;
+    return navigate(`${id}`);
   }
 
   return (
