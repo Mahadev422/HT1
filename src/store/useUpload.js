@@ -1,8 +1,8 @@
 // store/useUpload.js
 import { create } from 'zustand';
 
-//const baseUrl = 'https://ht1-backend.onrender.com';
-const baseUrl = ' http://127.0.0.1:8000';
+const baseUrl = 'https://ht1-backend.onrender.com';
+//const baseUrl = ' http://127.0.0.1:8000';
 
 export const useUpload = create((set) => ({
   uploading: false,

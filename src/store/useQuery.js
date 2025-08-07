@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
-//const baseUrl = 'https://ht1-backend.onrender.com';
-const baseUrl = ' http://127.0.0.1:8000';
+const baseUrl = 'https://ht1-backend.onrender.com';
+//const baseUrl = ' http://127.0.0.1:8000';
 
 export const useQuery = create((set) => ({
   set: set,
@@ -11,7 +11,6 @@ export const useQuery = create((set) => ({
 
   sendQuery: async (query, id, chats) => {
     set({ loading: true });
-    console.log(chats)
     try {
       const response = await fetch(`${baseUrl}/query/`, {
         method: "POST",

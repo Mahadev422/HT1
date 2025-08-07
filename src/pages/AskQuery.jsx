@@ -71,9 +71,25 @@ export default function AskQuery () {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto z-10 bg-gradient-to-b from-gray-50 to-blue-100 bg-blue-100">
-      <header className='sticky top-0 w-screen bg-green-200 h-15'>
-        <h1>ID: {id}</h1>
+    <div className="flex flex-col h-screen max-w-4xl mx-auto z-10 bg-gradient-to-b from-gray-50 to-blue-100">
+      <header className="sticky top-0 w-full bg-green-200 h-16 flex items-center justify-between px-6 shadow">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-green-900">ID:</span>
+          <span className="font-mono text-green-800 bg-green-100 px-2 py-1 rounded">{id}</span>
+        </div>
+        <button
+          className="ml-4 px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded transition-colors duration-200 flex items-center gap-1"
+          onClick={() => {
+            navigator.clipboard.writeText(id);
+          }}
+          title="Copy ID"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+          </svg>
+          Copy
+        </button>
       </header>
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto px-6 py-4 bg-gray-50">
@@ -81,15 +97,16 @@ export default function AskQuery () {
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
-          
-          {loading && <div className='w-50 flex items-center gap-5'>
-            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
-          bg-blue-500`}>
-           <FaRobot className="w-4 h-4 text-white" />
-        </div>
-            <Search path={'search'} />
-            </div>}
-          
+
+          {loading && (
+            <div className="w-50 flex items-center gap-5">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-blue-500">
+                <FaRobot className="w-4 h-4 text-white" />
+              </div>
+              <Search path={'search'} />
+            </div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
       </div>
@@ -105,7 +122,7 @@ export default function AskQuery () {
               placeholder="Type your message..."
               disabled={loading}
               onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(e)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100"
             />
             {loading && (
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -116,7 +133,7 @@ export default function AskQuery () {
           <button
             onClick={handleSendMessage}
             disabled={!newMessage.trim() || loading}
-            className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white p-3 rounded-full transition-colors duration-200"
+            className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white p-3 rounded-full transition-colors duration-200 flex items-center justify-center"
           >
             <FaPaperPlane className="w-4 h-4" />
           </button>
